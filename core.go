@@ -1,6 +1,7 @@
 package ecore
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 )
@@ -44,4 +45,18 @@ func ListDiff(a, b []string) []string {
 	}
 
 	return diff
+}
+
+// OneGlob() returs only one filepath if matches requirement after glob (*.some)
+func OneGlob(input string) (string, error) {
+	matches, err := filepath.Glob(input)
+	if err != nil {
+		panic(err)
+	}
+
+	if len(matches) != 1 {
+		return "", fmt.Errorf("expected 1 match not %d in %q", len(matches), input)
+	}
+
+	return matches[0], nil
 }
